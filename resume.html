@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人简历 - 后端程序员</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 40px 0;
+        }
+        .resume-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #fff;
+            padding: 40px 50px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .header .title {
+            font-size: 16px;
+            color: #bdc3c7;
+            letter-spacing: 2px;
+        }
+        .header .contact {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ecf0f1;
+        }
+        .header .contact span {
+            margin: 0 15px;
+        }
+        .header .contact a {
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+        .header .contact a:hover {
+            color: #3498db;
+        }
+        .section {
+            padding: 30px 50px;
+            border-bottom: 1px solid #eee;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: #e74c3c;
+        }
+        .profile {
+            line-height: 1.8;
+            color: #666;
+            font-size: 14px;
+            text-align: justify;
+        }
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .skill-tag {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        .experience-item {
+            margin-bottom: 30px;
+        }
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .exp-header h3 {
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        .exp-header .company {
+            color: #3498db;
+            font-weight: 500;
+        }
+        .exp-header .date {
+            color: #999;
+            font-size: 13px;
+        }
+        .exp-role {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .star-item {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #3498db;
+        }
+        .star-item h4 {
+            color: #2c3e50;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        .star-item p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .star-item .highlight {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+        .project-item {
+            margin-bottom: 25px;
+        }
+        .project-item:last-child {
+            margin-bottom: 0;
+        }
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .project-header h3 {
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        .project-header .tech {
+            color: #e74c3c;
+            font-size: 13px;
+        }
+        .project-desc {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .project-role {
+            color: #7f8c8d;
+            font-size: 13px;
+        }
+        .education-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .education-item:last-child {
+            margin-bottom: 0;
+        }
+        .edu-info h3 {
+            color: #2c3e50;
+            font-size: 15px;
+            margin-bottom: 3px;
+        }
+        .edu-info p {
+            color: #666;
+            font-size: 13px;
+        }
+        .edu-date {
+            color: #999;
+            font-size: 13px;
+        }
+        .award-list {
+            list-style: none;
+        }
+        .award-list li {
+            padding: 8px 0;
+            color: #666;
+            font-size: 14px;
+            border-bottom: 1px dashed #eee;
+        }
+        .award-list li:last-child {
+            border-bottom: none;
+        }
+        .award-list .date {
+            color: #999;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <div class="header">
+            <h1>张明远</h1>
+            <div class="title">后端开发工程师 / Go / Java / 微服务架构</div>
+            <div class="contact">
+                <span>📱 138-8888-8888</span>
+                <span>📧 zhangmingyuan@example.com</span>
+                <span>📍 北京市朝阳区</span>
+                <span><a href="https://github.com/zhangmingyuan" target="_blank">GitHub</a></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">个人简介</div>
+            <div class="profile">
+                5年+后端开发经验，专注于Go和Java后端技术栈，精通微服务架构设计与实现。具备大型分布式系统开发经验，熟悉高并发、高可用系统设计。对技术有持续热情，善于解决复杂问题，具备良好的团队协作能力和沟通能力。
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">核心技能</div>
+            <div class="skills-list">
+                <span class="skill-tag">Go</span>
+                <span class="skill-tag">Java</span>
+                <span class="skill-tag">Gin</span>
+                <span class="skill-tag">Spring Boot</span>
+                <span class="skill-tag">微服务架构</span>
+                <span class="skill-tag">Redis</span>
+                <span class="skill-tag">MySQL</span>
+                <span class="skill-tag">MongoDB</span>
+                <span class="skill-tag">RabbitMQ</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">Git</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">工作经历</div>
+            <div class="experience-item">
+                <div class="exp-header">
+                    <div>
+                        <h3>ShopWebGo 电商平台</h3>
+                        <div class="company">北京创新科技有限公司</div>
+                    </div>
+                    <div class="date">2023年3月 - 至今</div>
+                </div>
+                <div class="exp-role">高级后端开发工程师</div>
+                <div class="star-item">
+                    <h4>【订单系统重构】</h4>
+                    <p><span class="highlight">Situation：</span>原单体订单系统性能瓶颈明显，高峰期响应时间超过3秒，数据库压力过大。<br>
+                    <span class="highlight">Task：</span>负责订单系统微服务化重构，设计高可用架构。<br>
+                    <span class="highlight">Action：</span>采用Go语言+Gin框架重构，引入Redis缓存热点数据，使用RabbitMQ异步处理订单消息，实现读写分离。<br>
+                    <span class="highlight">Result：</span>订单创建响应时间降低至50ms以内，系统吞吐量提升3倍，成功支撑双11大促活动。</p>
+                </div>
+                <div class="star-item">
+                    <h4>【库存秒杀系统】</h4>
+                    <p><span class="highlight">Situation：</span>促销活动期间库存超卖问题严重，影响用户体验。<br>
+                    <span class="highlight">Task：</span>设计并实现高性能库存秒杀系统。<br>
+                    <span class="highlight">Action：</span>使用Redis分布式锁+Lua脚本保证原子性，采用多级缓存架构，实现库存预扣减机制。<br>
+                    <span class="highlight">Result：</span>秒杀活动零超卖，支持10万级QPS，成功率100%。</p>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-header">
+                    <div>
+                        <h3>企业级权限管理系统</h3>
+                        <div class="company">上海智云科技有限公司</div>
+                    </div>
+                    <div class="date">2020年5月 - 2023年2月</div>
+                </div>
+                <div class="exp-role">后端开发工程师</div>
+                <div class="star-item">
+                    <h4>【RBAC权限系统设计】</h4>
+                    <p><span class="highlight">Situation：</span>企业内部多系统权限管理混乱，缺乏统一认证授权机制。<br>
+                    <span class="highlight">Task：</span>设计统一的RBAC权限管理系统。<br>
+                    <span class="highlight">Action：</span>基于Spring Security实现OAuth2.0认证，设计灵活的角色权限配置，支持细粒度权限控制。<br>
+                    <span class="highlight">Result：</span>统一管理10+子系统权限，权限变更实时生效，运维效率提升60%。</p>
+                </div>
+                <div class="star-item">
+                    <h4>【日志审计系统】</h4>
+                    <p><span class="highlight">Situation：</span>缺乏操作日志记录，安全审计无法追溯。<br>
+                    <span class="highlight">Task：</span>开发操作日志审计系统。<br>
+                    <span class="highlight">Action：</span>使用AOP切面记录操作日志，Elasticsearch存储和检索，实现日志可视化分析。<br>
+                    <span class="highlight">Result：</span>日志检索响应时间<100ms，满足等保三级要求。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">项目经验</div>
+            <div class="project-item">
+                <div class="project-header">
+                    <h3>分布式任务调度系统</h3>
+                    <div class="tech">Go + Redis + MySQL</div>
+                </div>
+                <div class="project-desc">基于Go开发的轻量级分布式任务调度系统，支持定时任务、延迟任务、任务分片等功能。采用主从架构保证高可用，支持任务动态配置和监控告警。</div>
+                <div class="project-role">技术负责人：负责系统架构设计、核心模块开发</div>
+            </div>
+            <div class="project-item">
+                <div class="project-header">
+                    <h3>API网关服务</h3>
+                    <div class="tech">Go + Nginx + Consul</div>
+                </div>
+                <div class="project-desc">统一API网关，提供路由转发、限流熔断、认证授权、日志监控等功能。支持服务自动发现，动态配置路由规则。</div>
+                <div class="project-role">核心开发：负责限流熔断模块和服务发现集成</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">教育背景</div>
+            <div class="education-item">
+                <div class="edu-info">
+                    <h3>北京理工大学</h3>
+                    <p>计算机科学与技术 | 本科</p>
+                </div>
+                <div class="edu-date">2016年9月 - 2020年6月</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">荣誉奖项</div>
+            <ul class="award-list">
+                <li><span class="date">2024年</span>公司年度优秀员工</li>
+                <li><span class="date">2023年</span>技术创新奖（订单系统重构项目）</li>
+                <li><span class="date">2022年</span>Go语言开发者大会演讲嘉宾</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

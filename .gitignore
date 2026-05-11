@@ -1,0 +1,26 @@
+# 编译产物
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# 配置文件（含密码，禁止提交）
+config/app.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 上传的图片
+static/upload/
+
+# 临时文件
+tmp/
+temp/
+.vs/
+*.log

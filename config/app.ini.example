@@ -1,0 +1,24 @@
+app_name   = 你好 gin
+log_level  = DEBUG
+admin_path = /admin
+excludeAuthPath="/,/welcome,/loginOut"
+des_key = 你的DES密钥
+session_key = 你的Session密钥
+
+[mysql]
+ip       = 127.0.0.1
+port     = 3306
+user     = root
+password = 你的数据库密码
+database = ginshop
+
+[redis]
+ip   = 127.0.0.1
+port = 6379
+redisEnable = true
+
+[oss]
+access_key_id = 你的AccessKeyId
+access_key_secret = 你的AccessKeySecret
+status = 0
+# 打开状态 0为不使用OSS
