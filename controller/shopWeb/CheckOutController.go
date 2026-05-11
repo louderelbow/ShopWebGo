@@ -190,3 +190,33 @@ func (con CheckOutController) Pay(c *gin.Context) {
 		"orderItems": orderItems,
 	})
 }
+
+func (con CheckOutController) DoPay(c *gin.Context) {
+	orderId, err := util.Int(c.Query("orderId"))
+	if err != nil {
+		c.Redirect(302, "/")
+		return
+	}
+
+	user := model.User{}
+	util.Cookie.Get(c, "userinfo", &user)
+
+	order := model.Order{}
+	util.DB.Where("id = ? AND uid = ?", orderId, user.Id).Find(&order)
+	if order.Id == 0 {
+		c.Redirect(302, "/")
+		return
+	}
+
+	if order.PayStatus == 1 {
+		c.Redirect(302, "/user/order")
+		return
+	}
+
+	util.DB.Model(&order).Updates(map[string]interface{}{
+		"pay_status":   1,
+		"order_status": 1,
+	})
+
+	c.Redirect(302, "/user/order")
+}
