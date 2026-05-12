@@ -23,3 +23,12 @@ access_key_id = 你的AccessKeyId
 access_key_secret = 你的AccessKeySecret
 status = 0
 # 打开状态 0为不使用OSS
+
+# 开启状态 false为不使用Elastic
+[elasticsearch]
+enable = true
+addr = https://127.0.0.1:9200
+# 用户名
+username = elastic
+# Elastic首次启动时的密码
+password = 7vixJ7HOXGi2X1ngpkuI
