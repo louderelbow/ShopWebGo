@@ -1,25 +1,25 @@
 # ShopWebGo
 
-基于 Go 语言开发的电商平台，采用 Gin + GORM + Redis 技术栈，涵盖前台商城与后台管理系统，支持商品展示、购物车、订单结算、RBAC 权限控制以及 Redis 缓存优化。
+基于 Go 语言开发的电商平台，采用 Gin + GORM + Redis + Elasticsearch 技术栈，涵盖前台商城与后台管理系统。
 
 ---
 
 ## 技术栈
 
-| 类别 | 技术 | 说明 |
-|------|------|------|
-| 语言 | Go 1.26 | |
-| Web 框架 | Gin v1.12 | HTTP 路由、中间件、模板渲染 |
-| ORM | GORM v1.31 | MySQL 数据库操作、事务支持 |
-| 数据库 | MySQL 8.0 | 业务数据持久化 |
-| 缓存 | Redis 7 | 商品详情、导航、分类数据缓存 |
-| Session | gin-contrib/sessions | Cookie 存储的 Session 管理 |
-| 验证码 | base64Captcha | 后台登录图形验证码 |
-| 加密 | DES | Cookie 数据传输加密 |
-| 图片处理 | go_image | 商品图片缩放与裁剪 |
-| 配置管理 | go-ini | app.ini 配置文件解析 |
-| 阿里云 OSS | aliyun-oss-go-sdk | 图片对象存储（可选） |
-| 二维码 | go-qrcode | 二维码生成 |
+| 类别 | 技术                  | 说明 |
+|------|---------------------|------|
+| 语言 | Go 1.26             | |
+| Web 框架 | Gin v1.12           | 路由、中间件、模板渲染 |
+| ORM | GORM v1.31          | MySQL 操作、事务支持 |
+| 数据库 | MySQL 8.0           | 业务数据持久化 |
+| 缓存 | Redis 7             | 商品详情、导航、分类缓存 |
+| 搜索引擎 | Elasticsearch 9.4.0 | 订单全文搜索（可选开关） |
+| 认证 | JWT + Session       | 前台 JWT 无状态鉴权，后台 Session + RBAC |
+| 验证码 | base64Captcha       | 后台图形验证码 + 短信验证码 |
+| 加密 | DES + MD5           | Cookie 加密、密码哈希 |
+| 图片处理 | go_image            | 商品图片缩放裁剪 |
+| 文件存储 | 阿里云 OSS             | 可选 |
+| 配置管理 | go-ini              | app.ini 解析 |
 
 ---
 
@@ -29,25 +29,25 @@
 
 | 模块 | 功能 |
 |------|------|
-| 首页 | 轮播图、商品分类导航、推荐商品展示 |
-| 商品浏览 | 分类筛选、商品搜索、商品详情（关联商品、赠品、颜色、配件） |
-| 购物车 | 添加/删除商品、数量加减、选中切换、DES 加密 Cookie 存储 |
-| 用户认证 | 手机号注册、登录/登出、Session + Cookie 鉴权 |
-| 订单结算 | 收货地址选择、订单签名防重复提交、事务保护写入 |
-| 用户中心 | 订单列表、订单详情、收货地址管理 |
+| 首页 | 轮播图、分类导航、推荐商品 |
+| 商品浏览 | 分类筛选、商品详情（关联商品/赠品/颜色/配件/规格参数）、Redis 缓存 |
+| 购物车 | 增删改、数量加减、选中切换、DES 加密 Cookie 存储 |
+| 用户认证 | 手机号注册/登录/登出、JWT 无状态鉴权 |
+| 订单结算 | 收货地址管理、订单签名防重复提交、事务保护 |
+| 用户中心 | 订单列表/详情、Elasticsearch 搜索订单、收货地址管理 |
 
 ### 后台管理系统（`/admin`）
 
 | 模块 | 功能 |
 |------|------|
-| 管理员 | 登录验证码、Session 状态管理 |
+| 登录 | 验证码 + Session 状态管理 |
 | 管理员管理 | 增删改查、角色分配 |
-| RBAC 权限 | 角色管理、权限节点管理、角色授权、页面级访问控制 |
-| 商品管理 | 商品增删改查、上下架、多图上传、富文本编辑 |
-| 分类管理 | 商品分类增删改查、父子分类层级 |
+| RBAC 权限 | 角色管理、权限节点、角色授权、页面级访问控制 |
+| 商品管理 | 增删改查、上下架、多图上传、富文本编辑 |
+| 分类管理 | 商品分类 CRUD、父子分类层级 |
 | 商品类型 | 类型与属性管理（规格参数） |
 | 导航管理 | 顶部/中部导航配置、关联商品 |
-| 轮播图 | 焦点图增删改查 |
+| 轮播图 | 焦点图 CRUD |
 | 系统设置 | 站点配置、OSS 配置 |
 | 缓存管理 | 一键清除 Redis 缓存 |
 
@@ -55,14 +55,15 @@
 
 ## 架构亮点
 
-- **多级缓存策略**：商品详情使用 Redis 缓存，首次查询写入缓存（TTL 1小时），后续命中零数据库查询
-- **事务保护**：下单操作使用 `DB.Transaction` 包裹订单与订单商品写入，保证数据一致性
-- **SQL 注入防护**：全部查询使用 GORM 参数化查询（`?` 占位符），杜绝字符串拼接
-- **RBAC 权限模型**：角色 → 权限节点 → URL 路由的三级权限控制，超级管理员白名单机制
-- **防重复提交**：订单页生成随机签名存入 Session，提交时校验并销毁，防止刷新重复下单
-- **DES Cookie 加密**：购物车数据序列化后 DES 加密存储，密钥通过配置文件管理
-- **优雅关闭**：监听 SIGINT/SIGTERM 信号，平滑关闭 HTTP 服务后释放数据库与 Redis 连接
-- **中间件鉴权**：后台 Session 鉴权 + 前台用户 Cookie 鉴权，CORS 跨域支持
+- **JWT + Session 混合认证**：前台采用 JWT 无状态鉴权，后台采用 Session + RBAC 权限模型，兼顾扩缩容与精细权限控制
+- **Elasticsearch 搜索 + MySQL 降级**：订单搜索优先 ES，故障自动降级 MySQL LIKE，控制台输出当前使用的搜索方式
+- **多级 Redis 缓存**：商品详情、导航、分类数据缓存（TTL 1 小时），首次查库后续命中缓存
+- **事务保护**：下单操作使用 `DB.Transaction` 包裹订单与订单项写入，失败全回滚
+- **SQL 注入防护**：全项目使用 GORM 参数化查询（`?` 占位符）
+- **防重复提交**：订单页随机签名存入 Session，提交校验后销毁
+- **DES Cookie 加密**：购物车数据序列化后 DES 加密存储
+- **优雅关闭**：监听 SIGINT/SIGTERM，平滑关闭 HTTP 服务后释放数据库与 Redis 连接
+- **暗码安全**：数据库密码、OSS 密钥等敏感信息支持环境变量读取，配置文件通过 `.gitignore` 排除
 
 ---
 
@@ -70,75 +71,76 @@
 
 ```
 ShopWebGo/
-├── main.go                     # 入口：路由注册、中间件、优雅关闭
+├── main.go                     # 入口：路由注册、模板函数、中间件、优雅关闭
 ├── go.mod / go.sum             # Go 模块依赖
-├── .air.toml                   # 热重载配置
+├── .air.toml                   # Air 热重载配置
 ├── config/
-│   ├── app.ini.example         # 配置文件模板（需复制为 app.ini）
-│   └── app.ini                 # 真实配置（Git 忽略，含密码）
+│   ├── app.ini.example         # 配置文件模板
+│   └── app.ini                 # 真实配置（Git 忽略）
 ├── controller/
 │   ├── admin/                  # 后台控制器（12个）
 │   │   ├── LoginController.go      # 登录/登出/验证码
 │   │   ├── ManagerController.go    # 管理员 CRUD
 │   │   ├── RoleController.go       # 角色管理 + 授权
 │   │   ├── AccessController.go     # 权限节点管理
-│   │   ├── GoodsController.go      # 商品管理 + 图片上传
+│   │   ├── GoodsController.go      # 商品管理 + 图片/富文本上传
 │   │   ├── GoodsCateController.go  # 商品分类
 │   │   ├── GoodsTypeController.go  # 商品类型
 │   │   ├── GoodsTypeAttributeController.go  # 商品属性
 │   │   ├── FocusController.go      # 轮播图
 │   │   ├── NavController.go        # 导航管理
 │   │   ├── SettingController.go    # 系统设置
-│   │   ├── MainController.go       # 后台首页/状态切换/缓存清除
-│   │   └── BaseController.go       # 后台基础渲染
-│   ├── shopWeb/                # 前台控制器（8个）
-│   │   ├── DefaultController.go    # 首页
-│   │   ├── ProductController.go    # 商品列表/详情/图库
-│   │   ├── CartController.go       # 购物车 CRUD
-│   │   ├── PassController.go       # 登录/注册
-│   │   ├── CheckOutController.go   # 订单结算
-│   │   ├── AddressController.go    # 收货地址
-│   │   ├── UserController.go       # 用户中心/订单查询
-│   │   └── BaseController.go       # 前台公共渲染（导航/分类/用户状态）
-│   └── util/
-│       └── UnknownController.go    # 工具测试（缩略图/二维码）
-├── model/                      # 数据模型（20张表）
+│   │   ├── MainController.go       # 首页/状态切换/缓存清除
+│   │   └── BaseController.go       # 管理端基础渲染
+│   └── shopWeb/                # 前台控制器（8个）
+│       ├── DefaultController.go    # 首页
+│       ├── ProductController.go    # 商品列表/详情/图库（Redis 缓存）
+│       ├── CartController.go       # 购物车 CRUD
+│       ├── PassController.go       # 登录/注册（JWT 签发）
+│       ├── CheckOutController.go   # 订单结算（事务 + ES 同步 + 模拟支付）
+│       ├── AddressController.go    # 收货地址
+│       ├── UserController.go       # 用户中心/订单查询（ES 搜索优先）
+│       └── BaseController.go       # 前台公共渲染（导航/分类/用户状态）
+├── model/                      # 数据模型（20 张表）
 ├── router/
-│   ├── AdminRouter.go          # 后台路由（/admin 分组，Session 鉴权）
-│   └── DefaultRouter.go        # 前台路由（/ 分组，用户鉴权中间件）
+│   ├── AdminRouter.go          # 后台路由（Session 鉴权中间件）
+│   └── DefaultRouter.go        # 前台路由（JWT 鉴权 + CORS）
 ├── util/
-│   ├── MysqlCore.go            # MySQL 连接初始化（环境变量优先）
-│   ├── RedisCore.go            # Redis 连接 + 缓存封装
-│   ├── CookieUtil.go           # Cookie 加密/解密/读写
-│   ├── CaptchaUtils.go         # 图形验证码生成与校验
-│   ├── DesUtil.go              # DES 加解密
+│   ├── MysqlCore.go            # MySQL 连接（环境变量优先）
+│   ├── RedisCore.go            # Redis 连接 + CacheDb 封装
+│   ├── ElasticsearchUtil.go    # ES 连接 + SearchOrderItems + IndexOrderItem
+│   ├── JwtUtil.go              # JWT 生成/解析/获取用户
+│   ├── CookieUtil.go           # Cookie DES 加解密
+│   ├── CaptchaUtils.go         # 图形验证码生成校验
+│   ├── DesUtil.go              # DES 加解密算法
 │   ├── GetGoodsUtil.go         # 商品查询工具
-│   ├── UploadImgUtil.go        # 图片上传处理
+│   ├── UploadImgUtil.go        # 图片上传 + OSS
 │   ├── GeneratePicUtil.go      # 缩略图生成
-│   ├── FormatAttrUtil.go       # 属性格式化
+│   ├── FormatAttrUtil.go       # 规格属性格式化
 │   ├── TransformUtil.go        # 类型转换（Int/String/Md5 等）
 │   ├── TimeUtils.go            # 时间处理
+│   ├── GetOrderIdUtil.go       # 订单号生成
 │   ├── LoginUtil.go            # 站点配置读取
 │   └── middlewares/
-│       ├── SessionJudge.go     # 后台 Session 鉴权 + RBAC 权限校验
-│       ├── UserAuth.go         # 前台用户登录鉴权
-│       └── Cors.go            # CORS 跨域中间件
+│       ├── SessionJudge.go     # 后台 Session + RBAC 鉴权
+│       ├── UserAuth.go         # 前台 JWT 鉴权
+│       └── Cors.go            # CORS 跨域
 ├── templates/                  # HTML 模板（Go template）
-│   ├── admin/                  # 后台页面模板
-│   └── shopWeb/                # 前台页面模板
+│   ├── admin/                  # 后台页面
+│   └── shopWeb/                # 前台页面
 ├── static/                     # 静态资源
 │   ├── admin/                  # Bootstrap + 后台 CSS/JS
 │   ├── shopWeb/                # 前台 CSS/JS/图片
 │   └── diyUpload/              # 文件上传组件
 ├── sql/
-│   └── GinShop.sql             # 数据库建表 + 示例数据
-├── .gitignore                  # Git 忽略规则
+│   └── GinShop.sql             # 建表语句 + 示例数据
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 数据库表一览
+## 数据库表
 
 | 表名 | 说明 |
 |------|------|
@@ -152,9 +154,8 @@ ShopWebGo/
 | `nav` | 导航配置 |
 | `focus` | 轮播图 |
 | `user` | 前台用户 |
-| `user_temp` | 用户临时（注册验证） |
+| `user_temp` | 注册验证临时表 |
 | `address` | 收货地址 |
-| `cart` | 购物车（Cookie 为主） |
 | `order` | 订单主表 |
 | `order_item` | 订单商品明细 |
 | `manager` | 后台管理员 |
@@ -171,29 +172,27 @@ ShopWebGo/
 
 - Go 1.26+
 - MySQL 8.0+
-- Redis 7（可选，配置 `redisEnable = false` 可关闭）
+- Redis 7（可选）
+- Elasticsearch 9.x（可选）
 
 ### 安装与运行
 
 ```bash
-# 1. 克隆项目
-git clone https://github.com/你的用户名/ShopWebGo.git
+git clone https://github.com/louderelbow/ShopWebGo.git
 cd ShopWebGo
 
-# 2. 创建数据库
+# 创建数据库
 mysql -u root -p -e "CREATE DATABASE ginshop CHARACTER SET utf8mb4;"
 
-# 3. 导入表结构和数据
+# 导入数据
 mysql -u root -p ginshop < sql/GinShop.sql
 
-# 4. 复制并修改配置文件
+# 复制配置
 cp config/app.ini.example config/app.ini
-# 编辑 app.ini，填入你的数据库密码和 Redis 配置
+# 编辑 app.ini，修改数据库密码等
 
-# 5. 安装依赖
+# 安装依赖并启动
 go mod tidy
-
-# 6. 启动服务
 go run main.go
 ```
 
@@ -201,25 +200,55 @@ go run main.go
 - 前台商城：http://localhost:8080
 - 后台管理：http://localhost:8080/admin/login
 
----
+### 启用 Elasticsearch（可选）
 
-## 配置说明（config/app.ini）
+ES 安装并启动后，在 `app.ini` 配置：
 
 ```ini
-[mysql]
-ip       = 127.0.0.1       # 数据库地址
-port     = 3306            # 数据库端口
-user     = root            # 数据库用户
-password = 你的密码         # 数据库密码（支持环境变量 MYSQL_PASSWORD）
-database = ginshop         # 数据库名
-
-[redis]
-ip   = 127.0.0.1           # Redis 地址
-port = 6379                # Redis 端口
-redisEnable = true         # 是否启用 Redis 缓存
+[elasticsearch]
+enable = true
+addr = https://127.0.0.1:9200
+username = elastic
+password = 你的ES密码
 ```
 
-> 数据库密码优先从环境变量 `MYSQL_PASSWORD` 读取，未设置时回退到配置文件。
+在 ES 中创建索引：
+
+```json
+PUT /order_items
+{
+  "settings": { "number_of_replicas": 0 },
+  "mappings": {
+    "properties": {
+      "order_id":       { "type": "integer" },
+      "uid":            { "type": "integer" },
+      "product_title":  { "type": "text" },
+      "product_price":  { "type": "float" }
+    }
+  }
+}
+```
+
+之后在前台下单会自动写入 ES，用户中心搜索自动走 ES。关闭 `enable = false` 则自动降级为 MySQL LIKE。
+
+---
+
+## 配置说明
+
+```ini
+jwt_secret = 你的JWT密钥           # 前台 JWT 签名密钥
+des_key = 你的DES密钥               # 购物车 Cookie 加密密钥
+session_key = 你的Session密钥       # 后台 Session 加密密钥
+
+[mysql]
+password = 你的数据库密码            # 也支持环境变量 MYSQL_PASSWORD
+
+[redis]
+redisEnable = true                  # 关闭则不用 Redis
+
+[elasticsearch]
+enable = true                       # 关闭则走 MySQL LIKE 搜索
+```
 
 ---
 
@@ -228,8 +257,6 @@ redisEnable = true         # 是否启用 Redis 缓存
 | 账号 | 密码 |
 |------|------|
 | admin | 123456 |
-
-> 密码使用 MD5 存储，可在 `manager` 表中修改。
 
 ---
 
