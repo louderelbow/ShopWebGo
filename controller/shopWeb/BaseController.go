@@ -48,12 +48,12 @@ func (con BaseController) Render(c *gin.Context, tpl string, data map[string]int
 		util.CacheDb.Set("middleNavList", middleNavList, 60*60)
 	}
 
-	//4、获取Cookie里面保存的用户信息
+	//4、获取JWT里面保存的用户信息
 
-	user := model.User{}
-	isLogin := util.Cookie.Get(c, "userinfo", &user)
+	userId, phone, isLogin := util.GetUserFromJWT(c)
+	_ = userId
 	var userinfo string
-	if isLogin && len(user.Phone) == 11 {
+	if isLogin && len(phone) == 11 {
 		userinfo = fmt.Sprintf(`<li class="userinfo">
 			<a href="#">%v</a>		
 
@@ -65,7 +65,7 @@ func (con BaseController) Render(c *gin.Context, tpl string, data map[string]int
 
 				<li><a href="/pass/loginOut">退出登录</a></li>
 			</ol>								
-		</li> `, user.Phone)
+		</li> `, phone)
 	} else {
 		userinfo = fmt.Sprintf(`<li><a href="/pass/login">登录</a></li>
 		<li>|</li>

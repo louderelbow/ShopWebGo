@@ -140,8 +140,9 @@ func (con PassController) DoRegister(c *gin.Context) {
 		}
 		util.DB.Create(&user)
 
-		//5、执行登录
-		util.Cookie.Set(c, "userinfo", user)
+		//5、执行登录：生成JWT写入Cookie
+		token, _ := util.GenerateToken(user.Id, user.Phone)
+		c.SetCookie("token", token, 3600*24, "/", "", false, true)
 
 		c.Redirect(302, "/")
 
@@ -356,8 +357,16 @@ func (con PassController) DoLogin(c *gin.Context) {
 	userList := []model.User{}
 	util.DB.Where("phone = ? AND password = ?", phone, password).Find(&userList)
 	if len(userList) > 0 {
-		//执行登录
-		util.Cookie.Set(c, "userinfo", userList[0])
+		//执行登录：生成JWT写入Cookie
+		token, err := util.GenerateToken(userList[0].Id, userList[0].Phone)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": "登录失败",
+			})
+			return
+		}
+		c.SetCookie("token", token, 3600*24, "/", "", false, true)
 		c.JSON(http.StatusOK, gin.H{
 			"success": true,
 			"message": "用户登录成功",
@@ -373,8 +382,8 @@ func (con PassController) DoLogin(c *gin.Context) {
 
 }
 func (con PassController) LoginOut(c *gin.Context) {
-	//删除cookie里面的userinfo执行跳转
-	util.Cookie.Remove(c, "userinfo")
+	//删除JWT token Cookie
+	c.SetCookie("token", "", -1, "/", "", false, true)
 	prevPage := c.Request.Referer()
 	if len(prevPage) > 0 {
 		c.Redirect(302, prevPage)

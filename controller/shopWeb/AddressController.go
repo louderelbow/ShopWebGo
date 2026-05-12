@@ -28,14 +28,17 @@ func (con AddressController) AddAddress(c *gin.Context) {
 
 	//  1、获取用户信息以及 表单提交的数据
 
-	user := model.User{}
-	util.Cookie.Get(c, "userinfo", &user)
+	userId, _, ok := util.GetUserFromJWT(c)
+	if !ok {
+		c.JSON(200, gin.H{"success": false, "message": "请先登录"})
+		return
+	}
 	name := c.PostForm("name")
 	phone := c.PostForm("phone")
 	address := c.PostForm("address")
 	// 2、判断收货地址的数量
 	var addressNum int64
-	util.DB.Table("address").Where("uid = ?", user.Id).Count(&addressNum)
+	util.DB.Table("address").Where("uid = ?", userId).Count(&addressNum)
 	if addressNum > 10 {
 		c.JSON(200, gin.H{
 			"success": false,
@@ -45,11 +48,11 @@ func (con AddressController) AddAddress(c *gin.Context) {
 	}
 
 	// 3、更新当前用户的所有收货地址的默认收货地址状态为0
-	util.DB.Table("address").Where("uid = ?", user.Id).Updates(map[string]interface{}{"default_address": 0})
+	util.DB.Table("address").Where("uid = ?", userId).Updates(map[string]interface{}{"default_address": 0})
 
 	// 4、增加当前收货地址，让默认收货地址状态是1
 	addressResult := model.Address{
-		Uid:            user.Id,
+		Uid:            userId,
 		Name:           name,
 		Phone:          phone,
 		Address:        address,
@@ -59,7 +62,7 @@ func (con AddressController) AddAddress(c *gin.Context) {
 	// 5、返回当前用户的所有收货地址返回
 
 	addressList := []model.Address{}
-	util.DB.Where("uid = ?", user.Id).Order("id desc").Find(&addressList)
+	util.DB.Where("uid = ?", userId).Order("id desc").Find(&addressList)
 
 	c.JSON(200, gin.H{
 		"success": true,
@@ -79,11 +82,14 @@ func (con AddressController) GetOneAddressList(c *gin.Context) {
 		return
 	}
 	//2、获取用户id
-	user := model.User{}
-	util.Cookie.Get(c, "userinfo", &user)
+	userId, _, ok := util.GetUserFromJWT(c)
+	if !ok {
+		c.JSON(200, gin.H{"success": false, "message": "请先登录"})
+		return
+	}
 	//3、查询当前addressId  userID对应的数据
 	addressList := []model.Address{}
-	util.DB.Where("id = ? AND uid = ?", addressId, user.Id).Find(&addressList)
+	util.DB.Where("id = ? AND uid = ?", addressId, userId).Find(&addressList)
 	if len(addressList) > 0 {
 		c.JSON(200, gin.H{
 			"success": true,
@@ -112,8 +118,11 @@ func (con AddressController) EditAddress(c *gin.Context) {
 
 	*/
 	// 1、获取用户信息以及 表单修改的数据
-	user := model.User{}
-	util.Cookie.Get(c, "userinfo", &user)
+	userId, _, ok := util.GetUserFromJWT(c)
+	if !ok {
+		c.JSON(200, gin.H{"success": false, "message": "请先登录"})
+		return
+	}
 	id, err := util.Int(c.PostForm("id"))
 	name := c.PostForm("name")
 	phone := c.PostForm("phone")
@@ -128,7 +137,7 @@ func (con AddressController) EditAddress(c *gin.Context) {
 	}
 
 	// 2、更新当前用户的所有收货地址的默认收货地址状态为0
-	util.DB.Table("address").Where("uid = ?", user.Id).Updates(map[string]interface{}{"default_address": 0})
+	util.DB.Table("address").Where("uid = ?", userId).Updates(map[string]interface{}{"default_address": 0})
 
 	// 3、修改当前收货地址，让默认收货地址状态是1
 	editAddress := model.Address{Id: id}
@@ -142,7 +151,7 @@ func (con AddressController) EditAddress(c *gin.Context) {
 	// 4、返回当前用户的所有收货地址返回
 
 	addressList := []model.Address{}
-	util.DB.Where("uid = ?", user.Id).Order("id desc").Find(&addressList)
+	util.DB.Where("uid = ?", userId).Order("id desc").Find(&addressList)
 	c.JSON(200, gin.H{
 		"success": true,
 		"result":  addressList,
@@ -157,8 +166,11 @@ func (con AddressController) ChangeDefaultAddress(c *gin.Context) {
 	   3、更新当前收货地址的默认收货地址状态为1
 	*/
 
-	user := model.User{}
-	util.Cookie.Get(c, "userinfo", &user)
+	userId, _, ok := util.GetUserFromJWT(c)
+	if !ok {
+		c.JSON(200, gin.H{"success": false, "message": "请先登录"})
+		return
+	}
 	addressId, err := util.Int(c.Query("addressId"))
 	if err != nil {
 		c.JSON(200, gin.H{
@@ -167,9 +179,9 @@ func (con AddressController) ChangeDefaultAddress(c *gin.Context) {
 		})
 		return
 	}
-	util.DB.Table("address").Where("uid = ?", user.Id).Updates(map[string]interface{}{"default_address": 0})
+	util.DB.Table("address").Where("uid = ?", userId).Updates(map[string]interface{}{"default_address": 0})
 
-	util.DB.Table("address").Where("uid = ? AND id = ?", user.Id, addressId).Updates(map[string]interface{}{"default_address": 1})
+	util.DB.Table("address").Where("uid = ? AND id = ?", userId, addressId).Updates(map[string]interface{}{"default_address": 1})
 
 	c.JSON(200, gin.H{
 		"success": true,

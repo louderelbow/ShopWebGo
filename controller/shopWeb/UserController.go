@@ -3,6 +3,7 @@ package shopWeb
 import (
 	"ShopWebGo/model"
 	"ShopWebGo/util"
+	"fmt"
 	"math"
 
 	"github.com/gin-gonic/gin"
@@ -25,21 +26,32 @@ func (con UserController) OrderList(c *gin.Context) {
 
 	pageSize := 2
 
-	user := model.User{}
-	util.Cookie.Get(c, "userinfo", &user)
+	userId, _, ok := util.GetUserFromJWT(c)
+	if !ok {
+		c.Redirect(302, "/pass/login")
+		return
+	}
 
 	keywords := c.Query("keywords")
 
-	orderList := []model.Order{}
-	listDB := util.DB.Where("uid = ?", user.Id)
-
+	var orderIds []int
 	if keywords != "" {
-		orderItemList := []model.OrderItem{}
-		util.DB.Where("product_title LIKE ?", "%"+keywords+"%").Find(&orderItemList)
-		var orderIds []int
-		for _, v := range orderItemList {
-			orderIds = append(orderIds, v.OrderId)
+		orderIds = util.SearchOrderItems(userId, keywords)
+		if orderIds != nil {
+			fmt.Printf("[订单搜索] 使用 Elasticsearch | userId=%d keywords=%s 结果数=%d\n", userId, keywords, len(orderIds))
+		} else {
+			orderItemList := []model.OrderItem{}
+			util.DB.Where("product_title LIKE ?", "%"+keywords+"%").Find(&orderItemList)
+			for _, v := range orderItemList {
+				orderIds = append(orderIds, v.OrderId)
+			}
+			fmt.Printf("[订单搜索] 降级 MySQL LIKE | userId=%d keywords=%s 结果数=%d\n", userId, keywords, len(orderIds))
 		}
+	}
+
+	orderList := []model.Order{}
+	listDB := util.DB.Where("uid = ?", userId)
+	if keywords != "" {
 		if len(orderIds) > 0 {
 			listDB = listDB.Where("id IN ?", orderIds)
 		} else {
@@ -57,14 +69,8 @@ func (con UserController) OrderList(c *gin.Context) {
 	listDB.Preload("OrderItem").Order("add_time desc").Offset((page - 1) * pageSize).Limit(pageSize).Find(&orderList)
 
 	var count int64
-	countDB := util.DB.Table("order").Where("uid = ?", user.Id)
+	countDB := util.DB.Table("order").Where("uid = ?", userId)
 	if keywords != "" {
-		orderItemList := []model.OrderItem{}
-		util.DB.Where("product_title LIKE ?", "%"+keywords+"%").Find(&orderItemList)
-		var orderIds []int
-		for _, v := range orderItemList {
-			orderIds = append(orderIds, v.OrderId)
-		}
 		if len(orderIds) > 0 {
 			countDB = countDB.Where("id IN ?", orderIds)
 		} else {
@@ -91,10 +97,13 @@ func (con UserController) OrderInfo(c *gin.Context) {
 	if err != nil {
 		c.Redirect(302, "/user/order")
 	}
-	user := model.User{}
-	util.Cookie.Get(c, "userinfo", &user)
+	userId, _, ok := util.GetUserFromJWT(c)
+	if !ok {
+		c.Redirect(302, "/pass/login")
+		return
+	}
 	order := []model.Order{}
-	util.DB.Where("id=? And uid=?", id, user.Id).Preload("OrderItem").Find(&order)
+	util.DB.Where("id=? And uid=?", id, userId).Preload("OrderItem").Find(&order)
 
 	if len(order) == 0 {
 		c.Redirect(302, "/user/order")

@@ -4,6 +4,7 @@ admin_path = /admin
 excludeAuthPath="/,/welcome,/loginOut"
 des_key = 你的DES密钥
 session_key = 你的Session密钥
+jwt_secret = 你的JWT密钥
 
 [mysql]
 ip       = 127.0.0.1
