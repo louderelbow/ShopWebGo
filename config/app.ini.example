@@ -28,7 +28,5 @@ status = 0
 [elasticsearch]
 enable = true
 addr = https://127.0.0.1:9200
-# 用户名
-username = elastic
-# Elastic首次启动时的密码
-password = 7vixJ7HOXGi2X1ngpkuI
+username = 用户名
+password = Elastic首次启动时的密码
