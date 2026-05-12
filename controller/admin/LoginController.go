@@ -34,11 +34,10 @@ func (con LoginController) DoLogin(c *gin.Context) {
 	if flag := util.VerifyCaptcha(captchaId, verifyValue); flag {
 		//2、查询数据库 判断用户以及密码是否存在
 		userinfoList := []model.Manager{}
-		password = util.Md5(password)
 
-		util.DB.Where("username=? AND password=?", username, password).Find(&userinfoList)
+		util.DB.Where("username=?", username).Find(&userinfoList)
 
-		if len(userinfoList) > 0 {
+		if len(userinfoList) > 0 && util.CheckPassword(userinfoList[0].Password, password) {
 			//3、执行登录 保存用户信息 执行跳转
 			session := sessions.Default(c)
 			//注意：session.Set没法直接保存结构体对应的切片 把结构体转换成json字符串

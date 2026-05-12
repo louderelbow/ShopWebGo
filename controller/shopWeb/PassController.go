@@ -131,9 +131,10 @@ func (con PassController) DoRegister(c *gin.Context) {
 	util.DB.Where("sign=?", sign).Find(&userTemp)
 	if len(userTemp) > 0 {
 		//4、完成注册
+		hashedPassword, _ := util.HashPassword(password)
 		user := model.User{
 			Phone:    userTemp[0].Phone,
-			Password: util.Md5(password), //密码要加密
+			Password: hashedPassword,
 			LastIp:   userTemp[0].Ip,
 			AddTime:  int(util.GetUnix()),
 			Status:   1,
@@ -353,10 +354,9 @@ func (con PassController) DoLogin(c *gin.Context) {
 	}
 
 	//2、验证用户名密码是否正确
-	password = util.Md5(strings.Trim(password, " "))
 	userList := []model.User{}
-	util.DB.Where("phone = ? AND password = ?", phone, password).Find(&userList)
-	if len(userList) > 0 {
+	util.DB.Where("phone = ?", phone).Find(&userList)
+	if len(userList) > 0 && util.CheckPassword(userList[0].Password, strings.Trim(password, " ")) {
 		//执行登录：生成JWT写入Cookie
 		token, err := util.GenerateToken(userList[0].Id, userList[0].Phone)
 		if err != nil {

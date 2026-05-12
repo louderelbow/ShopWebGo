@@ -23,17 +23,17 @@ DROP TABLE IF EXISTS `access`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `access` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `module_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '0',
-  `type` tinyint(1) DEFAULT NULL,
-  `action_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `module_id` int DEFAULT NULL,
-  `sort` int DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  `status` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                          `id` int NOT NULL AUTO_INCREMENT,
+                          `module_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '0',
+                          `type` tinyint(1) DEFAULT NULL,
+                          `action_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                          `url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                          `module_id` int DEFAULT NULL,
+                          `sort` int DEFAULT NULL,
+                          `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                          `add_time` int DEFAULT NULL,
+                          `status` int DEFAULT NULL,
+                          PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,15 +55,15 @@ DROP TABLE IF EXISTS `address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `uid` int DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `default_address` tinyint(1) DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+                           `id` int NOT NULL AUTO_INCREMENT,
+                           `uid` int DEFAULT NULL,
+                           `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `default_address` tinyint(1) DEFAULT NULL,
+                           `add_time` int DEFAULT NULL,
+                           PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (42,12,'李四','15201686411','北京市 海淀区 西二旗 xxx好',0,0),(43,12,'张三','15201686411','深圳市   宝安区  xxx',0,0),(44,12,'王五','15201686411','上海市 xxx',0,0),(46,12,'王鹏朗','18243430922','吉林省',0,0),(48,12,'蔡徐坤','18243430922','1',0,0),(51,12,'我当时','18243430922','13',0,0),(52,12,'你干嘛','18243430922','艾欧',1,0);
+INSERT INTO `address` VALUES (42,12,'李四','15201686411','北京市 海淀区 西二旗 xxx好',0,0),(43,12,'张三','15201686411','深圳市   宝安区  xxx',0,0),(44,12,'王五','15201686411','上海市 xxx',0,0),(46,12,'王鹏朗','18243430922','吉林省',0,0),(48,12,'蔡徐坤','18243430922','1',0,0),(51,12,'我当时','18243430922','13',1,0),(52,12,'你干嘛','18243430922','艾欧',0,0),(53,13,'你干嘛','18243430922','123',1,0);
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,15 +84,15 @@ DROP TABLE IF EXISTS `focus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `focus` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `focus_type` tinyint(1) DEFAULT NULL,
-  `focus_img` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `link` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `sort` int DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                         `id` int NOT NULL AUTO_INCREMENT,
+                         `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                         `focus_type` tinyint(1) DEFAULT NULL,
+                         `focus_img` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                         `link` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                         `sort` int DEFAULT NULL,
+                         `status` tinyint(1) DEFAULT NULL,
+                         `add_time` int DEFAULT NULL,
+                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -114,34 +114,34 @@ DROP TABLE IF EXISTS `goods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `goods` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sub_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_sn` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cate_id` int DEFAULT NULL,
-  `click_count` int DEFAULT NULL,
-  `goods_number` int DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
-  `market_price` decimal(10,2) DEFAULT NULL,
-  `relation_goods` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_attr` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_gift` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_fitting` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `is_delete` tinyint DEFAULT NULL,
-  `is_hot` tinyint DEFAULT NULL,
-  `is_best` tinyint DEFAULT NULL,
-  `is_new` tinyint DEFAULT NULL,
-  `goods_type_id` int DEFAULT NULL,
-  `sort` int DEFAULT NULL,
-  `status` tinyint DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                         `id` int NOT NULL AUTO_INCREMENT,
+                         `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `sub_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_sn` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `cate_id` int DEFAULT NULL,
+                         `click_count` int DEFAULT NULL,
+                         `goods_number` int DEFAULT NULL,
+                         `price` decimal(10,2) DEFAULT NULL,
+                         `market_price` decimal(10,2) DEFAULT NULL,
+                         `relation_goods` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_attr` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_gift` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_fitting` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `goods_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+                         `is_delete` tinyint DEFAULT NULL,
+                         `is_hot` tinyint DEFAULT NULL,
+                         `is_best` tinyint DEFAULT NULL,
+                         `is_new` tinyint DEFAULT NULL,
+                         `goods_type_id` int DEFAULT NULL,
+                         `sort` int DEFAULT NULL,
+                         `status` tinyint DEFAULT NULL,
+                         `add_time` int DEFAULT NULL,
+                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,17 +163,17 @@ DROP TABLE IF EXISTS `goods_attr`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `goods_attr` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `goods_id` int DEFAULT NULL,
-  `attribute_cate_id` int DEFAULT NULL,
-  `attribute_id` int DEFAULT NULL,
-  `attribute_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `attribute_type` tinyint(1) DEFAULT NULL,
-  `attribute_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sort` int DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                              `id` int NOT NULL AUTO_INCREMENT,
+                              `goods_id` int DEFAULT NULL,
+                              `attribute_cate_id` int DEFAULT NULL,
+                              `attribute_id` int DEFAULT NULL,
+                              `attribute_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                              `attribute_type` tinyint(1) DEFAULT NULL,
+                              `attribute_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                              `sort` int DEFAULT NULL,
+                              `add_time` int DEFAULT NULL,
+                              `status` tinyint(1) DEFAULT NULL,
+                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -195,19 +195,19 @@ DROP TABLE IF EXISTS `goods_cate`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `goods_cate` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `cate_img` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `link` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `template` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `pid` int DEFAULT NULL,
-  `sub_title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `keywords` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `description` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  `sort` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                              `id` int NOT NULL AUTO_INCREMENT,
+                              `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `cate_img` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `link` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `template` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `pid` int DEFAULT NULL,
+                              `sub_title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `keywords` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `description` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `status` tinyint(1) DEFAULT NULL,
+                              `sort` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `add_time` int DEFAULT NULL,
+                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -229,11 +229,11 @@ DROP TABLE IF EXISTS `goods_color`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `goods_color` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `color_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `color_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `status` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` int NOT NULL AUTO_INCREMENT,
+                               `color_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                               `color_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                               `status` int DEFAULT NULL,
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -255,14 +255,14 @@ DROP TABLE IF EXISTS `goods_image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `goods_image` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `goods_id` int DEFAULT NULL,
-  `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `color_id` int DEFAULT NULL,
-  `sort` int DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` int NOT NULL AUTO_INCREMENT,
+                               `goods_id` int DEFAULT NULL,
+                               `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                               `color_id` int DEFAULT NULL,
+                               `sort` int DEFAULT NULL,
+                               `add_time` int DEFAULT NULL,
+                               `status` tinyint(1) DEFAULT NULL,
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -284,12 +284,12 @@ DROP TABLE IF EXISTS `goods_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `goods_type` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `status` int DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                              `id` int NOT NULL AUTO_INCREMENT,
+                              `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                              `status` int DEFAULT NULL,
+                              `add_time` int DEFAULT NULL,
+                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -311,16 +311,16 @@ DROP TABLE IF EXISTS `goods_type_attribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `goods_type_attribute` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `cate_id` int DEFAULT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `attr_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `attr_value` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  `sort` int DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `cate_id` (`cate_id`) USING BTREE
+                                        `id` int NOT NULL AUTO_INCREMENT,
+                                        `cate_id` int DEFAULT NULL,
+                                        `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                                        `attr_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                                        `attr_value` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                                        `status` tinyint(1) DEFAULT NULL,
+                                        `sort` int DEFAULT NULL,
+                                        `add_time` int DEFAULT NULL,
+                                        PRIMARY KEY (`id`) USING BTREE,
+                                        KEY `cate_id` (`cate_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -342,17 +342,17 @@ DROP TABLE IF EXISTS `manager`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `manager` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `password` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `mobile` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  `role_id` int DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  `is_super` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `role_id` (`role_id`) USING BTREE
+                           `id` int NOT NULL AUTO_INCREMENT,
+                           `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                           `password` varchar(64) DEFAULT NULL,
+                           `mobile` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                           `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+                           `status` tinyint(1) DEFAULT NULL,
+                           `role_id` int DEFAULT NULL,
+                           `add_time` int DEFAULT NULL,
+                           `is_super` tinyint(1) DEFAULT '0',
+                           PRIMARY KEY (`id`) USING BTREE,
+                           KEY `role_id` (`role_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -362,7 +362,7 @@ CREATE TABLE `manager` (
 
 LOCK TABLES `manager` WRITE;
 /*!40000 ALTER TABLE `manager` DISABLE KEYS */;
-INSERT INTO `manager` VALUES (1,'admin','e10adc3949ba59abbe56e057f20f883e','152016111','5188611114@qq.com',1,9,1777799355,1),(2,'zhangsan','e10adc3949ba59abbe56e057f20f883e','1520111122','342338691122@qq.com',1,14,1731661532,0),(6,'lisi','e10adc3949ba59abbe56e057f20f883e','1520171111','11114292@qq.com',1,16,1731156378,0);
+INSERT INTO `manager` VALUES (1,'admin','$2a$10$q6Zf3qlhtDzBnI9mfo8JueMF1YO9JZfFkPmm2NuJmUC2iUBCAF88G','152016111','5188611114@qq.com',1,9,1777799355,1),(2,'zhangsan','$2a$10$q6Zf3qlhtDzBnI9mfo8JueMF1YO9JZfFkPmm2NuJmUC2iUBCAF88G','1520111122','342338691122@qq.com',1,14,1731661532,0),(6,'lisi','$2a$10$q6Zf3qlhtDzBnI9mfo8JueMF1YO9JZfFkPmm2NuJmUC2iUBCAF88G','1520171111','11114292@qq.com',1,16,1731156378,0);
 /*!40000 ALTER TABLE `manager` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,16 +374,16 @@ DROP TABLE IF EXISTS `nav`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `nav` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `position` tinyint(1) DEFAULT NULL,
-  `is_opennew` tinyint(1) DEFAULT NULL,
-  `relation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sort` int DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                       `id` int NOT NULL AUTO_INCREMENT,
+                       `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                       `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                       `position` tinyint(1) DEFAULT NULL,
+                       `is_opennew` tinyint(1) DEFAULT NULL,
+                       `relation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                       `sort` int DEFAULT NULL,
+                       `status` tinyint(1) DEFAULT NULL,
+                       `add_time` int DEFAULT NULL,
+                       PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -405,20 +405,20 @@ DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `uid` int DEFAULT NULL,
-  `order_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `all_price` decimal(10,2) DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `zipcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `pay_status` tinyint(1) DEFAULT NULL,
-  `pay_type` tinyint(1) DEFAULT NULL,
-  `order_status` tinyint(1) DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+                         `id` int NOT NULL AUTO_INCREMENT,
+                         `uid` int DEFAULT NULL,
+                         `order_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `all_price` decimal(10,2) DEFAULT NULL,
+                         `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `zipcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                         `pay_status` tinyint(1) DEFAULT NULL,
+                         `pay_type` tinyint(1) DEFAULT NULL,
+                         `order_status` tinyint(1) DEFAULT NULL,
+                         `add_time` int DEFAULT NULL,
+                         PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -427,7 +427,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (39,12,'202112161333074546',4698.00,'李四','15201686411','北京市 海淀区 西二旗 xxx好11',NULL,0,0,0,1776632787),(40,12,'202112161339577439',4698.00,'王五','15201686412','上海市 xxx11 222 111',NULL,0,0,0,1776633197),(41,12,'202605092324524580',3548.00,'我当时','18243430922','13',NULL,0,0,0,1778340292),(42,12,'202605092344155851',1776.00,'王五','15201686411','上海市 xxx',NULL,0,0,0,1778341455),(43,12,'202605092358254606',888.00,'王五','15201686411','上海市 xxx',NULL,1,0,1,1778342305),(44,12,'202605101735392303',888.00,'你干嘛','18243430922','艾欧',NULL,1,0,1,1778405739),(45,12,'202605111215316146',1998.00,'你干嘛','18243430922','艾欧',NULL,0,0,0,1778472931);
+INSERT INTO `order` VALUES (39,12,'202112161333074546',4698.00,'李四','15201686411','北京市 海淀区 西二旗 xxx好11',NULL,0,0,0,1776632787),(40,12,'202112161339577439',4698.00,'王五','15201686412','上海市 xxx11 222 111',NULL,0,0,0,1776633197),(41,12,'202605092324524580',3548.00,'我当时','18243430922','13',NULL,0,0,0,1778340292),(42,12,'202605092344155851',1776.00,'王五','15201686411','上海市 xxx',NULL,0,0,0,1778341455),(43,12,'202605092358254606',888.00,'王五','15201686411','上海市 xxx',NULL,1,0,1,1778342305),(44,12,'202605101735392303',888.00,'你干嘛','18243430922','艾欧',NULL,1,0,1,1778405739),(45,12,'202605111215316146',1998.00,'你干嘛','18243430922','艾欧',NULL,0,0,0,1778472931),(46,12,'202605112122425785',125900.00,'王鹏朗','18243430922','吉林省',NULL,1,0,1,1778505762),(47,13,'202605120012012006',888.00,'你干嘛','18243430922','123',NULL,1,0,1,1778515921),(48,12,'202605120936015958',7104.00,'我当时','18243430922','13',NULL,1,0,1,1778549761);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -439,19 +439,19 @@ DROP TABLE IF EXISTS `order_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_item` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `order_id` int DEFAULT NULL,
-  `uid` int DEFAULT NULL,
-  `product_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `product_id` int DEFAULT NULL,
-  `product_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `product_price` decimal(10,2) DEFAULT NULL,
-  `product_num` int DEFAULT NULL,
-  `goods_version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `goods_color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+                              `id` int NOT NULL AUTO_INCREMENT,
+                              `order_id` int DEFAULT NULL,
+                              `uid` int DEFAULT NULL,
+                              `product_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                              `product_id` int DEFAULT NULL,
+                              `product_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                              `product_price` decimal(10,2) DEFAULT NULL,
+                              `product_num` int DEFAULT NULL,
+                              `goods_version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                              `goods_color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                              `add_time` int DEFAULT NULL,
+                              PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -460,7 +460,7 @@ CREATE TABLE `order_item` (
 
 LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
-INSERT INTO `order_item` VALUES (56,39,12,'Redmi Note 11 5G手机 1亿像素 55W有线闪充 50W无线闪充  6G+128GB 手机',20,'static/upload/20260430/1637139107685884400.jpg',3699.00,1,'6G+128GB','灰色',0),(57,39,12,'小米9-8GB+256GB',19,'static/upload/20260423/1592392307796676500.jpg',999.00,1,'8GB+256GB','红色',0),(58,40,12,'Redmi Note 11 5G手机 1亿像素 55W有线闪充 50W无线闪充  6G+128GB 手机',20,'static/upload/20260430/1637139107685884400.jpg',3699.00,1,'6G+128GB','灰色',0),(59,40,12,'小米9-8GB+256GB',19,'static/upload/20260423/1592392307796676500.jpg',999.00,1,'8GB+256GB','红色',0),(60,41,12,'小米9',19,'static/upload/20260508/1778237029987433700.png',999.00,1,'8GB+256GB','红色',0),(61,41,12,'困困',44,'',888.00,1,'Mate60','',0),(62,41,12,'小米8年度旗舰222',21,'static/upload/20260422/1635849810407008900.png',1112.00,1,'3GB+32GB','',0),(63,41,12,'Redmi 7A',22,'static/upload/20260425/1592820040.jpg',549.00,1,'3GB+32GB','',0),(64,42,12,'手机',41,'static/upload/20260505/1777989644429490900.png',888.00,2,'Mate60','',0),(65,43,12,'Valorant',69,'static/upload/20260505/1777988848071990300.png',888.00,1,'Mate60','',0),(66,44,12,'Valorant',69,'static/upload/20260505/1777988848071990300.png',888.00,1,'Mate60','',0),(67,45,12,'小米9',19,'static/upload/20260508/1778237029987433700.png',999.00,2,'8GB+256GB','红色',0);
+INSERT INTO `order_item` VALUES (56,39,12,'Redmi Note 11 5G手机 1亿像素 55W有线闪充 50W无线闪充  6G+128GB 手机',20,'static/upload/20260430/1637139107685884400.jpg',3699.00,1,'6G+128GB','灰色',0),(57,39,12,'小米9-8GB+256GB',19,'static/upload/20260423/1592392307796676500.jpg',999.00,1,'8GB+256GB','红色',0),(58,40,12,'Redmi Note 11 5G手机 1亿像素 55W有线闪充 50W无线闪充  6G+128GB 手机',20,'static/upload/20260430/1637139107685884400.jpg',3699.00,1,'6G+128GB','灰色',0),(59,40,12,'小米9-8GB+256GB',19,'static/upload/20260423/1592392307796676500.jpg',999.00,1,'8GB+256GB','红色',0),(60,41,12,'小米9',19,'static/upload/20260508/1778237029987433700.png',999.00,1,'8GB+256GB','红色',0),(61,41,12,'困困',44,'',888.00,1,'Mate60','',0),(62,41,12,'小米8年度旗舰222',21,'static/upload/20260422/1635849810407008900.png',1112.00,1,'3GB+32GB','',0),(63,41,12,'Redmi 7A',22,'static/upload/20260425/1592820040.jpg',549.00,1,'3GB+32GB','',0),(64,42,12,'手机',41,'static/upload/20260505/1777989644429490900.png',888.00,2,'Mate60','',0),(65,43,12,'Valorant',69,'static/upload/20260505/1777988848071990300.png',888.00,1,'Mate60','',0),(66,44,12,'Valorant',69,'static/upload/20260505/1777988848071990300.png',888.00,1,'Mate60','',0),(67,45,12,'小米9',19,'static/upload/20260508/1778237029987433700.png',999.00,2,'8GB+256GB','红色',0),(68,46,12,'小米1111',20,'static/upload/20260418/1592392495500412500.jpg',124124.00,1,'12G+512GB','',0),(69,46,12,'手机',41,'static/upload/20260505/1777989644429490900.png',888.00,2,'Mate60','',0),(70,47,13,'Valorant',69,'static/upload/20260505/1777988848071990300.png',888.00,1,'Mate60','',0),(71,48,12,'手机',41,'static/upload/20260505/1777989644429490900.png',888.00,8,'Mate60','',0);
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -472,12 +472,12 @@ DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                        `id` int NOT NULL AUTO_INCREMENT,
+                        `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                        `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                        `status` tinyint(1) DEFAULT NULL,
+                        `add_time` int DEFAULT NULL,
+                        PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -499,10 +499,10 @@ DROP TABLE IF EXISTS `role_access`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role_access` (
-  `role_id` int NOT NULL,
-  `access_id` int NOT NULL,
-  KEY `role_id` (`role_id`) USING BTREE,
-  KEY `access_id` (`access_id`) USING BTREE
+                               `role_id` int NOT NULL,
+                               `access_id` int NOT NULL,
+                               KEY `role_id` (`role_id`) USING BTREE,
+                               KEY `access_id` (`access_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -524,24 +524,24 @@ DROP TABLE IF EXISTS `setting`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `setting` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `site_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `site_logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `site_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `site_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `no_picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `site_icp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `site_tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `search_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `tongji_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `appid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `end_point` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `bucket_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `oss_status` tinyint(1) DEFAULT NULL,
-  `oss_domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `thumbnail_size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                           `id` int NOT NULL AUTO_INCREMENT,
+                           `site_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `site_logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `site_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `site_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `no_picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `site_icp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `site_tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `search_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `tongji_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `appid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `app_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `end_point` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `bucket_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `oss_status` tinyint(1) DEFAULT NULL,
+                           `oss_domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           `thumbnail_size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                           PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -563,15 +563,15 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `last_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  `status` tinyint DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+                        `id` int NOT NULL AUTO_INCREMENT,
+                        `password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                        `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                        `last_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                        `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                        `add_time` int DEFAULT NULL,
+                        `status` tinyint DEFAULT NULL,
+                        PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -580,7 +580,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (12,'e10adc3949ba59abbe56e057f20f883e','12322223335','::1','',1778254874,1);
+INSERT INTO `user` VALUES (12,'e10adc3949ba59abbe56e057f20f883e','12322223335','::1','',1778254874,1),(13,'e10adc3949ba59abbe56e057f20f883e','18243430922','::1','',1778515836,1),(14,'e10adc3949ba59abbe56e057f20f883e','13384449111','::1','',1778549362,1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -592,15 +592,15 @@ DROP TABLE IF EXISTS `user_temp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_temp` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `send_count` int DEFAULT NULL,
-  `add_day` int DEFAULT NULL,
-  `add_time` int DEFAULT NULL,
-  `sign` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+                             `id` int NOT NULL AUTO_INCREMENT,
+                             `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                             `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                             `send_count` int DEFAULT NULL,
+                             `add_day` int DEFAULT NULL,
+                             `add_time` int DEFAULT NULL,
+                             `sign` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                             PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -609,7 +609,7 @@ CREATE TABLE `user_temp` (
 
 LOCK TABLES `user_temp` WRITE;
 /*!40000 ALTER TABLE `user_temp` DISABLE KEYS */;
-INSERT INTO `user_temp` VALUES (40,'::1','18243430922',1,20260508,1778250746,'f140fe7a6836c4c3d690bd58a809c56a'),(41,'::1','12322223333',3,20260508,1778252418,'2fd8fb7a18f85b796b48604529f902bd'),(42,'::1','12322223335',3,20260508,1778254827,'7f12d0e71ae8cb84476afc0b4de32571');
+INSERT INTO `user_temp` VALUES (40,'::1','18243430922',1,20260508,1778250746,'f140fe7a6836c4c3d690bd58a809c56a'),(41,'::1','12322223333',3,20260508,1778252418,'2fd8fb7a18f85b796b48604529f902bd'),(42,'::1','12322223335',3,20260508,1778254827,'7f12d0e71ae8cb84476afc0b4de32571'),(43,'::1','18243430922',1,20260512,1778515824,'13f37a624c99688bcd0f148e3ebd12d7'),(44,'::1','13384449111',1,20260512,1778549347,'472907b0326bef4fcf034771e4e2096d');
 /*!40000 ALTER TABLE `user_temp` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -622,4 +622,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-11 16:07:49
+-- Dump completed on 2026-05-12 19:51:08

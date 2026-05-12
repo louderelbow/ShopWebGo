@@ -59,9 +59,10 @@ func (con ManagerController) DoAdd(c *gin.Context) {
 		return
 	}
 	//执行增加管理员
+	hashedPwd, _ := util.HashPassword(password)
 	manager := model.Manager{
 		Username: username,
-		Password: util.Md5(password),
+		Password: hashedPwd,
 		Email:    email,
 		Mobile:   mobile,
 		RoleId:   roleId,
@@ -136,7 +137,7 @@ func (con ManagerController) DoEdit(c *gin.Context) {
 			con.error(c, "密码的长度不合法 密码长度不能小于6位", "/admin/manager/edit?id="+util.String(id))
 			return
 		}
-		manager.Password = util.Md5(password)
+		manager.Password, _ = util.HashPassword(password)
 	}
 	err3 := util.DB.Save(&manager).Error
 	if err3 != nil {
