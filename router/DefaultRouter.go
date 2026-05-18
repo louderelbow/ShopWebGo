@@ -40,18 +40,18 @@ func DefaultRoutersInit(r *gin.Engine) {
 		defaultRouters.POST("/pass/doLogin", shopWeb.PassController{}.DoLogin)
 		defaultRouters.GET("/pass/loginOut", shopWeb.PassController{}.LoginOut)
 
-		defaultRouters.GET("/buy/checkout", middlewares.InitUserAuthMiddleware, shopWeb.CheckOutController{}.Checkout)
-		defaultRouters.POST("/buy/doCheckout", middlewares.InitUserAuthMiddleware, shopWeb.CheckOutController{}.DoCheckout)
-		defaultRouters.GET("/buy/pay", middlewares.InitUserAuthMiddleware, shopWeb.CheckOutController{}.Pay)
-		defaultRouters.GET("/buy/doPay", middlewares.InitUserAuthMiddleware, shopWeb.CheckOutController{}.DoPay)
+		defaultRouters.GET("/buy/checkout", middlewares.InitUserAuthMiddleware(), shopWeb.CheckOutController{}.Checkout)
+		defaultRouters.POST("/buy/doCheckout", middlewares.InitUserAuthMiddleware(), shopWeb.CheckOutController{}.DoCheckout)
+		defaultRouters.GET("/buy/pay", middlewares.InitUserAuthMiddleware(), shopWeb.CheckOutController{}.Pay)
+		defaultRouters.GET("/buy/doPay", middlewares.InitUserAuthMiddleware(), shopWeb.CheckOutController{}.DoPay)
 
-		defaultRouters.POST("/address/addAddress", middlewares.InitUserAuthMiddleware, shopWeb.AddressController{}.AddAddress)
-		defaultRouters.POST("/address/editAddress", middlewares.InitUserAuthMiddleware, shopWeb.AddressController{}.EditAddress)
-		defaultRouters.GET("/address/changeDefaultAddress", middlewares.InitUserAuthMiddleware, shopWeb.AddressController{}.ChangeDefaultAddress)
-		defaultRouters.GET("/address/getOneAddressList", middlewares.InitUserAuthMiddleware, shopWeb.AddressController{}.GetOneAddressList)
+		defaultRouters.POST("/address/addAddress", middlewares.InitUserAuthMiddleware(), shopWeb.AddressController{}.AddAddress)
+		defaultRouters.POST("/address/editAddress", middlewares.InitUserAuthMiddleware(), shopWeb.AddressController{}.EditAddress)
+		defaultRouters.GET("/address/changeDefaultAddress", middlewares.InitUserAuthMiddleware(), shopWeb.AddressController{}.ChangeDefaultAddress)
+		defaultRouters.GET("/address/getOneAddressList", middlewares.InitUserAuthMiddleware(), shopWeb.AddressController{}.GetOneAddressList)
 
-		defaultRouters.GET("/user", middlewares.InitUserAuthMiddleware, shopWeb.UserController{}.Index)
-		defaultRouters.GET("/user/order", middlewares.InitUserAuthMiddleware, shopWeb.UserController{}.OrderList)
-		defaultRouters.GET("/user/orderinfo", middlewares.InitUserAuthMiddleware, shopWeb.UserController{}.OrderInfo)
+		defaultRouters.GET("/user", middlewares.InitUserAuthMiddleware(), shopWeb.UserController{}.Index)
+		defaultRouters.GET("/user/order", middlewares.InitUserAuthMiddleware(), shopWeb.UserController{}.OrderList)
+		defaultRouters.GET("/user/orderinfo", middlewares.InitUserAuthMiddleware(), shopWeb.UserController{}.OrderInfo)
 	}
 }

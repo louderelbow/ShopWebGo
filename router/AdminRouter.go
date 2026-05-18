@@ -9,7 +9,7 @@ import (
 
 func AdminRoutersInit(r *gin.Engine) {
 	//middlewares.InitMiddleware中间件
-	adminRouters := r.Group("/admin", middlewares.SessionJudge)
+	adminRouters := r.Group("/admin", middlewares.SessionJudge())
 	{
 		adminRouters.GET("/", admin.MainController{}.Index)
 		adminRouters.GET("/welcome", admin.MainController{}.Welcome)

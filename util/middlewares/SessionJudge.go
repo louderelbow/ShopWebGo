@@ -13,66 +13,63 @@ import (
 	"gopkg.in/ini.v1"
 )
 
-func SessionJudge(c *gin.Context) {
+func SessionJudge() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 1、获取Url访问的地址
+		pathname := strings.Split(c.Request.URL.String(), "?")[0]
 
-	//进行权限判断 没有登录的用户 不能进入后台管理中心
+		// 2、获取Session里面保存的用户信息
+		session := sessions.Default(c)
+		userinfo := session.Get("userinfo")
+		userinfoStr, ok := userinfo.(string)
 
-	//1、获取Url访问的地址  /admin/captcha
+		if ok {
+			var userinfoStruct []model.Manager
+			err := json.Unmarshal([]byte(userinfoStr), &userinfoStruct)
 
-	//2、获取Session里面保存的用户信息
+			// Session过期判断
+			if err != nil || !(len(userinfoStruct) > 0 && userinfoStruct[0].Username != "") {
+				if pathname != "/admin/login" && pathname != "/admin/doLogin" && pathname != "/admin/captcha" {
+					c.Redirect(302, "/admin/login")
+					c.Abort() // 中断请求
+					return
+				}
+			} else { // 用户登录成功，权限判断
+				urlPath := strings.Replace(pathname, "/admin/", "", 1)
 
-	//3、判断Session中的用户信息是否存在，如果不存在跳转到登录页面（注意需要判断） 如果存在继续向下执行
+				// 不是超级管理员且访问路径不在白名单
+				if userinfoStruct[0].IsSuper == 0 && !excludeAuthPath("/"+urlPath) {
+					// 根据角色获取权限列表
+					roleAccess := []model.RoleAccess{}
+					util.DB.Where("role_id=?", userinfoStruct[0].RoleId).Find(&roleAccess)
+					roleAccessMap := make(map[int]int)
+					for _, v := range roleAccess {
+						roleAccessMap[v.AccessId] = v.AccessId
+					}
 
-	//4、如果Session不存在，判断当前访问的URl是否是login doLogin captcha，如果不是跳转到登录页面，如果是不行任何操作
+					// 获取当前访问的url对应的权限id
+					access := model.Access{}
+					util.DB.Where("url = ?", urlPath).Find(&access)
 
-	//  1、获取Url访问的地址   /admin/captcha?t=0.8706946438889653
-	pathname := strings.Split(c.Request.URL.String(), "?")[0]
-	// 2、获取Session里面保存的用户信息
-	session := sessions.Default(c)
-	userinfo := session.Get("userinfo")
-	//类型断言 来判断 userinfo是不是一个string
-	userinfoStr, ok := userinfo.(string)
-
-	if ok {
-		var userinfoStruct []model.Manager
-		err := json.Unmarshal([]byte(userinfoStr), &userinfoStruct)
-		// Session过期判断
-		if err != nil || !(len(userinfoStruct) > 0 && userinfoStruct[0].Username != "") {
+					// 判断是否有权限
+					if _, ok := roleAccessMap[access.Id]; !ok {
+						c.String(200, "没有权限")
+						c.Abort() // 中断请求
+						return
+					}
+				}
+			}
+		} else { // 没有登录
 			if pathname != "/admin/login" && pathname != "/admin/doLogin" && pathname != "/admin/captcha" {
 				c.Redirect(302, "/admin/login")
+				c.Abort() // 中断请求
+				return
 			}
-		} else { //用户登录成功 权限判断
-			urlPath := strings.Replace(pathname, "/admin/", "", 1)
-
-			// 不是超级管理员且访问路径不在白名单
-			if userinfoStruct[0].IsSuper == 0 && !excludeAuthPath("/"+urlPath) {
-
-				// 1、根据角色获取当前角色的权限列表,然后把权限id放在一个map类型的对象里面
-				roleAccess := []model.RoleAccess{}
-				util.DB.Where("role_id=?", userinfoStruct[0].RoleId).Find(&roleAccess)
-				roleAccessMap := make(map[int]int)
-				// 定义map存储用户是否有key这个权限 value是无关字段随意设置
-				for _, v := range roleAccess {
-					roleAccessMap[v.AccessId] = v.AccessId
-				}
-				// 2、获取当前访问的url对应的权限id 判断权限id是否在角色对应的权限
-				// pathname   /admin/manager
-				access := model.Access{}
-				util.DB.Where("url = ?", urlPath).Find(&access)
-				//3、判断当前访问的url对应的权限id 是否在权限列表的id中
-				if _, ok := roleAccessMap[access.Id]; !ok {
-					c.String(200, "没有权限")
-					c.Abort()
-				}
-			}
-
 		}
-	} else { //没有登录
-		if pathname != "/admin/login" && pathname != "/admin/doLogin" && pathname != "/admin/captcha" {
-			c.Redirect(302, "/admin/login")
-		}
+
+		// 验证通过，放行
+		c.Next()
 	}
-
 }
 
 //排除权限判断的方法
