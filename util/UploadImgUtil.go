@@ -12,7 +12,6 @@ import (
 
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/ini.v1"
 )
 
 // Oss上传
@@ -25,11 +24,7 @@ func OssUpload(file *multipart.FileHeader, dst string) (string, error) {
 	defer f.Close()
 
 	//读取.ini里面的数据库配置
-	config, iniErr := ini.Load("./config/app.ini")
-	if iniErr != nil {
-		fmt.Printf("Fail to read file: %v", iniErr)
-		os.Exit(1)
-	}
+	config := GetConfig()
 
 	accessKeyID := config.Section("oss").Key("access_key_id").String()
 	accessKeySecret := config.Section("oss").Key("access_key_secret").String()
@@ -56,11 +51,7 @@ func OssUpload(file *multipart.FileHeader, dst string) (string, error) {
 
 // 获取Oss的状态
 func GetOssStatus() int {
-	config, iniErr := ini.Load("./config/app.ini")
-	if iniErr != nil {
-		fmt.Printf("Fail to read file: %v", iniErr)
-		os.Exit(1)
-	}
+	config := GetConfig()
 	ossStatus, _ := Int(config.Section("oss").Key("status").String())
 	return ossStatus
 }

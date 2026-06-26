@@ -108,11 +108,13 @@ func (con PassController) RegisterStep3(c *gin.Context) {
 func (con PassController) DoRegister(c *gin.Context) {
 
 	//1、获取表单传过来的数据
-
 	sign := c.PostForm("sign")
 	smsCode := c.PostForm("smsCode")
 	password := c.PostForm("password")
 	rpassword := c.PostForm("rpassword")
+
+	fmt.Println("[DoRegister] ========== 开始注册 ==========")
+	fmt.Printf("[DoRegister] sign=%s smsCode=%s password_len=%d rpassword_len=%d\n", sign, smsCode, len(password), len(rpassword))
 
 	//2、验证smsCode是否合法
 	session := sessions.Default(c)
@@ -120,37 +122,66 @@ func (con PassController) DoRegister(c *gin.Context) {
 	sessionSmsCodeStr, ok := sessionSmsCode.(string)
 
 	if !ok || smsCode != sessionSmsCodeStr {
+		fmt.Printf("[DoRegister] ❌ 短信验证码不匹配: 用户输入=%s session=%s ok=%v\n", smsCode, sessionSmsCodeStr, ok)
 		c.Redirect(302, "/")
+		return
 	}
+	fmt.Println("[DoRegister] ✅ 短信验证码校验通过")
+
 	//3、验证密码是否合法
 	if len(password) < 6 || password != rpassword {
+		fmt.Printf("[DoRegister] ❌ 密码校验失败: len=%d match=%v\n", len(password), password == rpassword)
 		c.Redirect(302, "/")
+		return
 	}
+	fmt.Println("[DoRegister] ✅ 密码校验通过")
+
 	//4、验证签名是否合法
 	userTemp := []model.UserTemp{}
 	util.DB.Where("sign=?", sign).Find(&userTemp)
-	if len(userTemp) > 0 {
-		//4、完成注册
-		hashedPassword, _ := util.HashPassword(password)
-		user := model.User{
-			Phone:    userTemp[0].Phone,
-			Password: hashedPassword,
-			LastIp:   userTemp[0].Ip,
-			AddTime:  int(util.GetUnix()),
-			Status:   1,
-		}
-		util.DB.Create(&user)
-
-		//5、执行登录：生成JWT写入Cookie
-		token, _ := util.GenerateToken(user.Id, user.Phone)
-		c.SetCookie("token", token, 3600*24, "/", "", false, true)
-
+	if len(userTemp) == 0 {
+		fmt.Printf("[DoRegister] ❌ 签名无效 sign=%s 未找到对应userTemp记录\n", sign)
 		c.Redirect(302, "/")
-
-	} else {
-		c.Redirect(302, "/")
+		return
 	}
+	fmt.Printf("[DoRegister] ✅ 签名有效 phone=%s ip=%s\n", userTemp[0].Phone, userTemp[0].Ip)
 
+	//5、哈希密码
+	hashedPassword, hashErr := util.HashPassword(password)
+	if hashErr != nil {
+		fmt.Printf("[DoRegister] ❌ 密码哈希失败: %v\n", hashErr)
+		c.Redirect(302, "/")
+		return
+	}
+	fmt.Printf("[DoRegister] bcrypt哈希: 原始长度=%d 哈希后长度=%d 前20字符=%s\n", len(password), len(hashedPassword), hashedPassword[:20])
+
+	//6、写入数据库
+	user := model.User{
+		Phone:    userTemp[0].Phone,
+		Password: hashedPassword,
+		LastIp:   userTemp[0].Ip,
+		AddTime:  int(util.GetUnix()),
+		Status:   1,
+	}
+	fmt.Printf("[DoRegister] 📤 准备写入DB: Phone=%s LastIp=%s PasswordLen=%d\n", user.Phone, user.LastIp, len(user.Password))
+
+	result := util.DB.Create(&user)
+	if result.Error != nil {
+		fmt.Printf("[DoRegister] ❌ 数据库写入失败: %v\n", result.Error)
+		c.Redirect(302, "/")
+		return
+	}
+	fmt.Printf("[DoRegister] ✅ 数据库写入成功! UserID=%d RowsAffected=%d\n", user.ID, result.RowsAffected)
+
+	//7、执行登录：生成JWT写入Cookie
+	token, tokenErr := util.GenerateToken(user.ID, user.Phone)
+	if tokenErr != nil {
+		fmt.Printf("[DoRegister] ❌ Token生成失败: %v\n", tokenErr)
+	}
+	c.SetCookie("token", token, 3600*24, "/", "", false, true)
+	fmt.Printf("[DoRegister] ✅ 注册完成，跳转首页 UserID=%d Phone=%s\n", user.ID, user.Phone)
+
+	c.Redirect(302, "/")
 }
 
 func (con PassController) SendCode(c *gin.Context) {
@@ -358,7 +389,7 @@ func (con PassController) DoLogin(c *gin.Context) {
 	util.DB.Where("phone = ?", phone).Find(&userList)
 	if len(userList) > 0 && util.CheckPassword(userList[0].Password, strings.Trim(password, " ")) {
 		//执行登录：生成JWT写入Cookie
-		token, err := util.GenerateToken(userList[0].Id, userList[0].Phone)
+		token, err := util.GenerateToken(userList[0].ID, userList[0].Phone)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"success": false,

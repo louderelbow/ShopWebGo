@@ -18,6 +18,12 @@
 
 <form action="/buy/doCheckout" method="post" id="checkoutForm">
 	<input type="hidden" name="orderSign" value="{{.orderSign}}">
+		{{if .checkoutError}}
+		<div style="background:#fff2f0;border:1px solid #ffccc7;border-radius:8px;padding:14px 20px;margin-bottom:16px;color:#cf1322;font-size:14px;display:flex;align-items:center;gap:8px;">
+			<svg viewBox="0 0 24 24" width="18" height="18" fill="#ff4d4f"><circle cx="12" cy="12" r="10" stroke="#ff4d4f" stroke-width="2" fill="none"/><line x1="12" y1="8" x2="12" y2="13" stroke="#ff4d4f" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="#ff4d4f"/></svg>
+			<span>{{.checkoutError}}</span>
+		</div>
+		{{end}}
 	<div class="checkout-box">
 		<div class="section section-address">
 			<div class="section-header clearfix">

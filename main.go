@@ -17,16 +17,11 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/ini.v1"
 )
 
 func main() {
 
-	config, iniErr := ini.Load("./config/app.ini")
-	if iniErr != nil {
-		fmt.Printf("Fail to read file: %v", iniErr)
-		os.Exit(1)
-	}
+	config := util.GetConfig()
 
 	sessionKey := config.Section("").Key("session_key").String()
 

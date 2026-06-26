@@ -150,6 +150,7 @@ func (con GoodsController) DoAdd(c *gin.Context) {
 		if util.GetOssStatus() != 1 {
 			wg.Add(1)
 			go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 				util.ResizeGoodsImage(goodsImg)
 				wg.Done()
 			}()
@@ -193,6 +194,7 @@ func (con GoodsController) DoAdd(c *gin.Context) {
 	//5、增加图库 信息
 	wg.Add(1)
 	go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 		goodsImageList := c.PostFormArray("goods_image_list")
 		for _, v := range goodsImageList {
 			goodsImgObj := model.GoodsImage{}
@@ -208,6 +210,7 @@ func (con GoodsController) DoAdd(c *gin.Context) {
 	//6、增加规格包装
 	wg.Add(1)
 	go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 		attrIdList := c.PostFormArray("attr_id_list")
 		attrValueList := c.PostFormArray("attr_value_list")
 		for i := 0; i < len(attrIdList); i++ {
@@ -390,6 +393,7 @@ func (con GoodsController) DoEdit(c *gin.Context) {
 		if util.GetOssStatus() != 1 {
 			wg.Add(1)
 			go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 				util.ResizeGoodsImage(goodsImg)
 				wg.Done()
 			}()
@@ -405,6 +409,7 @@ func (con GoodsController) DoEdit(c *gin.Context) {
 	//5、修改图库 增加图库信息
 	wg.Add(1)
 	go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 		goodsImageList := c.PostFormArray("goods_image_list")
 		for _, v := range goodsImageList {
 			goodsImgObj := model.GoodsImage{}
@@ -425,6 +430,7 @@ func (con GoodsController) DoEdit(c *gin.Context) {
 	//6.2、重新执行增加
 	wg.Add(1)
 	go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 		attrIdList := c.PostFormArray("attr_id_list")
 		attrValueList := c.PostFormArray("attr_value_list")
 		for i := 0; i < len(attrIdList); i++ {
@@ -471,6 +477,7 @@ func (con GoodsController) EditorImageUpload(c *gin.Context) {
 		if util.GetOssStatus() != 1 {
 			wg.Add(1)
 			go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 				util.ResizeGoodsImage(imgDir)
 				wg.Done()
 			}()
@@ -496,6 +503,7 @@ func (con GoodsController) GoodsImageUpload(c *gin.Context) {
 		if util.GetOssStatus() != 1 {
 			wg.Add(1)
 			go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 				util.ResizeGoodsImage(imgDir)
 				wg.Done()
 			}()

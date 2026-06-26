@@ -4,13 +4,10 @@ import (
 	"ShopWebGo/model"
 	"ShopWebGo/util"
 	"encoding/json"
-	"fmt"
-	"os"
 	"strings"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/ini.v1"
 )
 
 func SessionJudge() gin.HandlerFunc {
@@ -75,18 +72,14 @@ func SessionJudge() gin.HandlerFunc {
 //排除权限判断的方法
 
 func excludeAuthPath(urlPath string) bool {
-	config, iniErr := ini.Load("./config/app.ini")
-	if iniErr != nil {
-		fmt.Printf("Fail to read file: %v", iniErr)
-		os.Exit(1)
+	config := util.GetConfig()
+	excludeAuthPathStr := config.Section("admin").Key("excludeAuthPath").String()
+	if excludeAuthPathStr == "" {
+		return false
 	}
-	excludeAuthPath := config.Section("").Key("excludeAuthPath").String()
-
-	excludeAuthPathSlice := strings.Split(excludeAuthPath, ",")
-	// return true
-	fmt.Println(excludeAuthPathSlice)
-	for _, v := range excludeAuthPathSlice {
-		if v == urlPath {
+	excludeAuthPathSlice := strings.Split(excludeAuthPathStr, ",")
+	for _, p := range excludeAuthPathSlice {
+		if strings.TrimSpace(p) == urlPath {
 			return true
 		}
 	}

@@ -3,6 +3,7 @@ package admin
 import (
 	"ShopWebGo/model"
 	"ShopWebGo/util"
+	"fmt"
 	"net/http"
 	"sync"
 
@@ -40,6 +41,7 @@ func (con SettingController) DoEdit(c *gin.Context) {
 
 	// 1. 协程1：上传 Logo
 	go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 		defer wg.Done()
 		siteLogo, err := util.UploadImg(ctx, "site_logo")
 		if len(siteLogo) > 0 && err == nil {
@@ -49,6 +51,7 @@ func (con SettingController) DoEdit(c *gin.Context) {
 
 	// 2. 协程2：上传默认商品图片
 	go func() {
+				defer func() { if r := recover(); r != nil { fmt.Println("goroutine panic:", r) } }()
 		defer wg.Done()
 		noPicture, err := util.UploadImg(ctx, "no_picture")
 		if len(noPicture) > 0 && err == nil {

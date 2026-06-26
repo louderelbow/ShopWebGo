@@ -2,11 +2,8 @@ package util
 
 import (
 	"encoding/json"
-	"fmt"
-	"os"
 
 	"github.com/gin-gonic/gin"
-	"gopkg.in/ini.v1"
 )
 
 // 定义结构体  缓存结构体 私有
@@ -16,11 +13,7 @@ type ginCookie struct{}
 // 写入数据的方法
 func (cookie ginCookie) Set(c *gin.Context, key string, value interface{}) {
 	//读取.ini里面的数据库配置
-	config, iniErr := ini.Load("./config/app.ini")
-	if iniErr != nil {
-		fmt.Printf("Fail to read file: %v", iniErr)
-		os.Exit(1)
-	}
+	config := GetConfig()
 
 	des_key := config.Section("").Key("des_key").String()
 
@@ -35,11 +28,7 @@ func (cookie ginCookie) Set(c *gin.Context, key string, value interface{}) {
 func (cookie ginCookie) Get(c *gin.Context, key string, obj interface{}) bool {
 
 	//读取.ini里面的数据库配置
-	config, iniErr := ini.Load("./config/app.ini")
-	if iniErr != nil {
-		fmt.Printf("Fail to read file: %v", iniErr)
-		os.Exit(1)
-	}
+	config := GetConfig()
 
 	des_key := config.Section("").Key("des_key").String()
 

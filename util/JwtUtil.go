@@ -6,7 +6,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"gopkg.in/ini.v1"
 )
 
 type JwtClaims struct {
@@ -16,7 +15,7 @@ type JwtClaims struct {
 }
 
 func getJwtSecret() []byte {
-	config, err := ini.Load("./config/app.ini")
+	config := GetConfig()
 	if err != nil {
 		return []byte("shopwebgo-jwt-secret")
 	}

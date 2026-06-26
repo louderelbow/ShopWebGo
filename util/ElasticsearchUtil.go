@@ -8,21 +8,15 @@ import (
 	"fmt"
 	"net"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/elastic/go-elasticsearch/v9"
-	"gopkg.in/ini.v1"
 )
 
 var ESClient *elasticsearch.Client
 
 func init() {
-	config, iniErr := ini.Load("./config/app.ini")
-	if iniErr != nil {
-		fmt.Printf("Fail to read file: %v", iniErr)
-		os.Exit(1)
-	}
+	config := GetConfig()
 
 	enable, _ := config.Section("elasticsearch").Key("enable").Bool()
 	if !enable {

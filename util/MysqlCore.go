@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"gopkg.in/ini.v1"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -15,11 +14,7 @@ var err error
 
 func init() {
 	//读取.ini里面的数据库配置
-	config, iniErr := ini.Load("./config/app.ini")
-	if iniErr != nil {
-		fmt.Printf("Fail to read file: %v", iniErr)
-		os.Exit(1)
-	}
+	config := GetConfig()
 
 	ip := config.Section("mysql").Key("ip").String()
 	port := config.Section("mysql").Key("port").String()
